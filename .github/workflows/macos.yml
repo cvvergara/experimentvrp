@@ -40,6 +40,13 @@ jobs:
           sudo make install
           cpan TAP::Parser::SourceHandler::pgTAP
 
+      - name: Install pgTAP
+        if: steps.cache-pgtap.outputs.cache-hit == 'true'
+        run: |
+          cd ./pgTapExtension/
+          sudo make install
+          cpan TAP::Parser::SourceHandler::pgTAP
+
       - name: install deps
         run: |
           brew install postgis boost pgrouting
