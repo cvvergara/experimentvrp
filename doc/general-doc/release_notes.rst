@@ -23,18 +23,9 @@ To see the full list of changes check the list of `Git commits <https://github.c
 
 .. changelog start
 
-* `v0.0.1 release notes`_
 * `v0.0.0 Release Notes`_
 
 .. changelog end
-
-v0.0.1 Release Notes
-*******************************************************************************
-
-.. rubric:: Cleanup tasks
-
-* Updating documentation
-
 
 
 
