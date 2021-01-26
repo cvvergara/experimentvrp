@@ -21,7 +21,7 @@ jobs:
       - name: Get pgtap repo
         uses: actions/checkout@v2
         with:
-          repository: theory/pgtap.git
+          repository: theory/pgtap
           path: pgTapExtension
 
       - name: Install pgTAP
