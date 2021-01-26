@@ -26,7 +26,6 @@ jobs:
 
       - name: Install pgTAP
         run: |
-          ls
           cd pgTapExtension
           make -j
           sudo make install
@@ -34,7 +33,7 @@ jobs:
 
       - name: install deps
         run: |
-          brew install postgis boost
+          brew install postgis boost pgrouting
 
       - name: Configure
         run: |
