@@ -17,10 +17,10 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      
+
       - name: install deps
         run: |
-          brew install postgresql postgis boost
+          brew install postgresql postgis boost pgtap
 
       - name: Configure
         run: |
