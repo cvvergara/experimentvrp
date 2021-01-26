@@ -18,7 +18,7 @@ jobs:
     strategy:
         fail-fast: false
         matrix:
-          boost_minor: [71, 75]
+          boost_minor: [70, 75]
           os: [ubuntu-latest]
 
     steps:
