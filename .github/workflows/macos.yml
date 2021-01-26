@@ -37,8 +37,8 @@ jobs:
       - name: Get pgtap repo
         uses: actions/checkout@master
         with:
-          repository: theory/pgtap.git
-          path: pgTapExtension
+          name: theory/pgtap.git
+          ref: refs/heads/release
 
       - name: Install pgTAP
         run: |
