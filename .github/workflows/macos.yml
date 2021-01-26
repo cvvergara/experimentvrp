@@ -18,9 +18,24 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
+      - name: Get pgtap repo
+        uses: actions/checkout@master
+        with:
+          name: theory/pgtap.git
+          ref: refs/heads/release
+
+      - name: Install pgTAP
+        run: |
+          ls
+          #git clone https://github.com/theory/pgtap.git pgTapExtension
+          #cd pgTapExtension
+          #make -j
+          #sudo make install
+          #cpan TAP::Parser::SourceHandler::pgTAP
+
       - name: install deps
         run: |
-          brew install postgresql postgis boost
+          brew install postgis boost
 
       - name: Configure
         run: |
@@ -33,20 +48,6 @@ jobs:
           cd build
           make -j
           sudo make install
-
-      - name: Get pgtap repo
-        uses: actions/checkout@master
-        with:
-          name: theory/pgtap.git
-          ref: refs/heads/release
-
-      - name: Install pgTAP
-        run: |
-          git clone https://github.com/theory/pgtap.git pgTapExtension
-          cd pgTapExtension
-          make -j
-          sudo make install
-          cpan TAP::Parser::SourceHandler::pgTAP
 
       - name: Test
         run: |
