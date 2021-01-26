@@ -18,7 +18,7 @@ vrpRouting community support is available through the `vrpRouting website <https
 Reporting Problems
 -------------------------------------------------------------------------------
 
-Bugs are reported and managed in an `issue tracker <https://github.com/pgrouting/vrprouting/issues>`_. Please follow these steps:
+Bugs are reported and managed in an `issue tracker <https://github.com/pgRouting/vrprouting/issues>`_. Please follow these steps:
 
 1. Search the tickets to see if your problem has already been reported. If so, add any extra context you might have found, or at least indicate that you too are having the problem. This will help us prioritize common issues.
 2. If your problem is unreported, create a `new issue <https://github.com/pgRouting/vrprouting/issues/new>`__ for it.
