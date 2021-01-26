@@ -318,7 +318,7 @@ linkcheck_ignore = [
 
 
     # (see: https://github.com/sphinx-doc/sphinx/issues/7388)
-    "https://github.com/pgRouting/vrprouting/issues/*",    # limit only vrprouting
+    r"https://github.com/pgRouting/vrprouting/",    # limit only vrprouting
 ]
 
 linkcheck_timeout = 20
