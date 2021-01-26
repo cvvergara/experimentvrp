@@ -34,6 +34,12 @@ jobs:
           make -j
           sudo make install
 
+      - name: Get pgtap repo
+        uses: actions/checkout@master
+        with:
+          repository: theory/pgtap.git
+          path: pgTapExtension
+
       - name: Install pgTAP
         run: |
           git clone https://github.com/theory/pgtap.git pgTapExtension
