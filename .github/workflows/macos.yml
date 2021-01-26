@@ -27,11 +27,10 @@ jobs:
       - name: Install pgTAP
         run: |
           ls
-          #git clone https://github.com/theory/pgtap.git pgTapExtension
-          #cd pgTapExtension
-          #make -j
-          #sudo make install
-          #cpan TAP::Parser::SourceHandler::pgTAP
+          cd pgTapExtension
+          make -j
+          sudo make install
+          cpan TAP::Parser::SourceHandler::pgTAP
 
       - name: install deps
         run: |
