@@ -255,8 +255,6 @@ endif()
 #compiler directives
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # https://www.postgresql.org/docs/10/xfunc-c.html
-include(CheckCCompilerFlag)
-include(CheckCXXCompilerFlag)
 
 if(NOT WIN32 AND NOT APPLE)
   add_compile_options(-fPIC)
