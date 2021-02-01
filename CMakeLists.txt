@@ -139,9 +139,6 @@ endif()
 #---------------------------------------------
 #---------------------------------------------
 include(FindPerl)
-if(NOT PERL_EXECUTABLE)
-  message(FATAL_ERROR "perl NOT FOUND - Please check your Perl installation.")
-endif()
 
 #---------------------------------------------
 #---------------------------------------------
@@ -205,11 +202,13 @@ if (PROJECT_DEBUG)
 endif()
 
 
+
 #---------------------------------------------
 #---------------------------------------------
 # PROJECT includes
 #---------------------------------------------
 #---------------------------------------------
+
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
 #---------------------------------------------
@@ -365,8 +364,6 @@ else(APPLE)
 endif(APPLE)
 
 
-LINK_LIBRARIES(${BOOST_THREAD_LIBRARIES})
-
 #-------------------
 # pgRouting objects to be linked
 #-------------------
@@ -375,25 +372,9 @@ foreach (subdir ${PROJECT_SRC_DIRECTORIES} )
 endforeach()
 
 
-#-----------------------------------------------------------------------------
-# PROJECT Library names
-#-----------------------------------------------------------------------------
-
-
-#----------------------
-# PGROUTING installation files names have the following name
-#----------------------
-
-if (PROJECT_DEBUG)
-  message(STATUS "PROJECT_LIB_NAME ${PROJECT_LIB_NAME}")
-endif()
-
-
-
 add_library(${PROJECT_LIB_NAME}
   ${LIBRARY_MODE_TARGET}
   ${PROJECT_OBJECTS})
-
 
 
 if(APPLE)
@@ -401,6 +382,7 @@ if(APPLE)
     PROPERTIES
     LINK_FLAGS "-bundle_loader ${POSTGRESQL_EXECUTABLE} -bundle")
 endif(APPLE)
+
 if(WIN32 AND MSVC)
   set_target_properties(${PROJECT_LIB_NAME} PROPERTIES PREFIX "lib")
 endif(WIN32 AND MSVC)
@@ -415,9 +397,6 @@ endif(WIN32 AND MSVC)
 #-----------------------------------------------------------------------------
 
 add_subdirectory(sql)
-if (PROJECT_DEBUG)
-  message(STATUS "PROJECT_FILES_TO_INSTALL=${PROJECT_FILES_TO_INSTALL}")
-endif()
 
 
 #-----------------------------------------------------------------------------
@@ -436,6 +415,7 @@ install(FILES
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 # DOCUMENTATION
+# We are not installing documentation
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 add_subdirectory(doxygen)
