@@ -286,23 +286,10 @@ if(WIN32 AND MSVC)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-  if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-    CHECK_C_COMPILER_FLAG("-frounding-math" C_COMPILER_SUPPORTS_ROUNDING_MATH)
-    CHECK_CXX_COMPILER_FLAG("-frounding-math" CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
-    if(C_COMPILER_SUPPORTS_ROUNDING_MATH)
-      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -frounding-math ")
-    endif()
-    if(CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
-      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frounding-math ")
-    endif()
-  endif()
-
-  set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -Wall -Wconversion -Wmissing-prototypes -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
-  if(BOOST_Geometry_VERSION_OK)
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wconversion -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
-  else()
-    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
-  endif()
+  add_compile_options(
+    "$<$<CONFIG:Debug>:-Wall;-Wextra;-Werror;-Wpedantic;-W;-Wunused;-Wuninitialized;-Wextra;-Wdouble-promotion;-Wconversion>"
+    "$<$<CXX_COMPILER_ID:GNU>:-frounding-math>"
+    )
 endif()
 
 
