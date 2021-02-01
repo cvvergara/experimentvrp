@@ -73,6 +73,12 @@ endif()
 set(CMAKE_CXX_STANDARD 14)
 set(CMAKE_C_STANDARD 11)
 
+#---------------------------------------------
+#---------------------------------------------
+# Boost
+#---------------------------------------------
+#---------------------------------------------
+
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED)
 if (NOT Boost_VERSION_MACRO)
   set(Boost_VERSION_MACRO ${Boost_VERSION})
@@ -80,31 +86,10 @@ endif()
 add_definitions(-DBoost_VERSION_MACRO=${Boost_VERSION_MACRO})
 set(BOOST_VERSION "${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
 
-include(CheckCCompilerFlag)
-include(CheckCXXCompilerFlag)
-if (false)
-if (BOOST_VERSION VERSION_LESS "1.75.0")
-  CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-  if(COMPILER_SUPPORTS_CXX11)
-    set(CMAKE_CXX_STANDARD 11)
-    set(CMAKE_CXX_STANDARD_REQUIRED ON)
-    set(CMAKE_CXX_EXTENSIONS OFF)
-  else()
-    CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-    if(COMPILER_SUPPORTS_CXX0X)
-      add_compile_options("-std=c++0x")
-      message(STATUS "Using  -std=c++0x.")
-    else()
-      message(WARNING "The compiler ${CMAKE_CXX_COMPILER} has no C++0x or C++11 flags support.
-      Using: callback compiler's standard")
-    endif()
-  endif()
-else()
-  set(CMAKE_CXX_STANDARD 14)
-endif()
-endif()
-
 add_definitions(-DBOOST_ALLOW_DEPRECATED_HEADERS)
+include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
+
+
 
 
 #---------------------------------------------
@@ -194,14 +179,6 @@ endif()
 add_definitions(-DPGSQL_VERSION=${PGSQL_VERSION})
 message(STATUS "PGSQL_VERSION=${PGSQL_VERSION}")
 
-
-#---------------------------------------------
-#---------------------------------------------
-# Boost
-#---------------------------------------------
-#---------------------------------------------
-
-include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 
 #---------------------------------------------
@@ -296,6 +273,8 @@ endif()
 #compiler directives
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 # https://www.postgresql.org/docs/10/xfunc-c.html
+include(CheckCCompilerFlag)
+include(CheckCXXCompilerFlag)
 
 if(NOT WIN32)
   CHECK_C_COMPILER_FLAG("-fPIC" C_COMPILER_SUPPORTS_FPIC)
