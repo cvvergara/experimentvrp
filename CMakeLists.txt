@@ -128,36 +128,38 @@ find_package(Perl REQUIRED)
 # PostgreSQL
 #---------------------------------------------
 #---------------------------------------------
-find_package(PostgreSQL)
-if(NOT POSTGRESQL_FOUND OR NOT POSTGRESQL_VERSION_STRING)
-  message(FATAL_ERROR "PostgreSQL not found - Please check your PostgreSQL installation.")
+find_package(PostgreSQL ${POSTGRESQL_MINIMUM_VERSION} REQUIRED)
+if(POSTGRESQL_BIN)
+  # Checking POSTGRESQL_PG_CONFIG
+  find_program(POSTGRESQL_PG_CONFIG NAMES pg_config
+    PATHS
+    ${POSTGRESQL_BIN}
+    NO_DEFAULT_PATH
+    )
+else()
+  find_program(POSTGRESQL_PG_CONFIG NAMES pg_config)
 endif()
 
-message(STATUS "POSTGRESQL_VERSION_STRING=${POSTGRESQL_VERSION_STRING}")
-string(SUBSTRING "${POSTGRESQL_VERSION_STRING}" 11 -1 POSTGRESQL_VERSION)
+find_program(POSTGRESQL_PG_CONFIG pg_config)
 
 # for XbetaY XalphaY XrcY -> X.Y
-string(REGEX REPLACE "^([0-9]+)[beta|alpha|rc|devel].*" "\\1.0" POSTGRESQL_VERSION ${POSTGRESQL_VERSION})
+string(REGEX REPLACE "^([0-9]+)[beta|alpha|rc|devel].*" "\\1.0" PostgreSQL_VERSION_STRING ${PostgreSQL_VERSION_STRING})
 
 #for X.Y.Z -> XY  Y<10
-string(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*" "\\1\\2" PGSQL_VERSION ${POSTGRESQL_VERSION})
+string(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*" "\\1" PostgreSQL_VERSION_MAYOR ${PostgreSQL_VERSION_STRING})
+string(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*" "\\2" PostgreSQL_VERSION_MINOR ${PostgreSQL_VERSION_STRING})
+math(EXPR PostgreSQL_VERSION_NUM "${PostgreSQL_VERSION_MAYOR} * 10000 + ${PostgreSQL_VERSION_MINOR}")
 
-
-if("${POSTGRESQL_VERSION}" VERSION_LESS "${POSTGRESQL_MINIMUM_VERSION}")
-  message(FATAL_ERROR " PostgreSQL ${POSTGRESQL_MINIMUM_VERSION} or greater is required.")
-endif("${POSTGRESQL_VERSION}" VERSION_LESS "${POSTGRESQL_MINIMUM_VERSION}")
 
 #-------
-include_directories(SYSTEM ${POSTGRESQL_INCLUDE_DIR})
+include_directories(SYSTEM ${PostgreSQL_INCLUDE_DIRS})
 if(WIN32)
-  include_directories(SYSTEM ${POSTGRESQL_INCLUDE_DIR}/port/win32)
+  include_directories(SYSTEM ${PostgreSQL_INCLUDE_DIRS}/port/win32)
   if(MSVC)
-    include_directories(SYSTEM ${POSTGRESQL_INCLUDE_DIR}/port/win32_msvc/)
+    include_directories(SYSTEM ${PostgreSQL_INCLUDE_DIRS}/port/win32_msvc/)
   endif()
 endif()
 
-add_definitions(-DPGSQL_VERSION=${PGSQL_VERSION})
-message(STATUS "PGSQL_VERSION=${PGSQL_VERSION}")
 
 
 
@@ -173,15 +175,19 @@ string(TIMESTAMP COMPILATION_DATE "\"%Y/%m/%d\"")
 add_definitions(-DBOOST_VERSION="${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
 add_definitions(-DCOMPILATION_DATE=${COMPILATION_DATE})
 add_definitions(-DCOMPILER_VERSION="${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
-add_definitions(-DPostgreSQL_VERSION_STRING="${POSTGRESQL_VERSION_STRING}")
+add_definitions(-DPostgreSQL_VERSION_STRING="${PostgreSQL_VERSION_STRING}")
 add_definitions(-DSYSTEM_NAME="${CMAKE_SYSTEM}")
+# Definitions
+add_definitions(-DPostgreSQL_VERSION_NUM=${PostgreSQL_VERSION_NUM})
 
 if (PROJECT_DEBUG)
-  message(STATUS "PERL_VERSION_STRING = ${PERL_VERSION_STRING}")
-  message(STATUS "POSTGRESQL_VERSION is ${PGSQL_VERSION}")
-  message(STATUS "PGSQL_VERSION is ${PGSQL_VERSION}")
-  message(STATUS "Boost_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}")
-  message(STATUS "POSTGRESQL_INCLUDE_DIR = ${POSTGRESQL_INCLUDE_DIR}")
+  message(STATUS "PostgreSQL_FOUND ${PostgreSQL_FOUND}")
+  message(STATUS "PostgreSQL_INCLUDE_DIRS ${PostgreSQL_INCLUDE_DIRS}")
+  message(STATUS "PostgreSQL_LIBRARIES ${PostgreSQL_LIBRARIES}")
+  message(STATUS "PostgreSQL_LIBRARY_DIRS ${PostgreSQL_LIBRARY_DIRS}")
+  message(STATUS "PostgreSQL_VERSION_STRING ${PostgreSQL_VERSION_STRING}")
+  message(STATUS "PostgreSQL_VERSION_NUM ${PostgreSQL_VERSION_NUM}")
+  message(STATUS "POSTGRESQL_PG_CONFIG ${POSTGRESQL_PG_CONFIG}")
 endif()
 
 
