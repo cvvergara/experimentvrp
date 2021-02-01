@@ -11,7 +11,6 @@ endif()
 #---------------------------------------------
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
-include(pgr/BuildType)
 
 
 #---------------------------------------------
@@ -23,16 +22,18 @@ project(VRPROUTING VERSION 0.0.0
 set(PROJECT_VERSION_DEV "")
 string(TOLOWER "${PROJECT_NAME}" PROJECT_NAME_LOWER)
 
-include(pgr/GitInfo)
-include(pgr/Version)
-
-add_definitions(-DPROJECT_VERSION="${PROJECT_VERSION}${PROJECT_VERSION_DEV}")
-set(PROJECT_LIB_NAME "${PROJECT_NAME_LOWER}-${PROJECT_LIB_VERSION}")
-
-
 set(MINORS 0.0)
 set(OLD_SIGNATURES
   )
+
+
+include(pgr/BuildType)
+include(pgr/GitInfo)
+include(pgr/Version)
+
+add_definitions(-DPROJECT_VERSION="v${PROJECT_VERSION}${PROJECT_VERSION_DEV}")
+set(PROJECT_LIB_NAME "${PROJECT_NAME_LOWER}-${PROJECT_LIB_VERSION}")
+
 
 
 
@@ -45,17 +46,16 @@ include(pgr/Configure)
 #---------------------------------------------
 # minimum versions
 #---------------------------------------------
+#TODO define precisely which versions
 set(DOXYGEN_MINIMUM_VERSION "1.7")
 set(SPHINX_MINIMUM_VERSION "1.8")
-set(POSTGRESQL_MINIMUM_VERSION "9.2.0")
-set(BOOST_MINIMUM_VERSION "1.53.0")
-set(POSTGIS_MINIMUM_VERSION "2.0.0")
+set(POSTGRESQL_MINIMUM_VERSION "10.0.0")
+set(BOOST_MINIMUM_VERSION "1.65.0")
 
 message(STATUS "DOXYGEN_MINIMUM_VERSION=${DOXYGEN_MINIMUM_VERSION}")
 message(STATUS "SPHINX_MINIMUM_VERSION=${SPHINX_MINIMUM_VERSION}")
 message(STATUS "POSTGRESQL_MINIMUM_VERSION=${POSTGRESQL_MINIMUM_VERSION}")
 message(STATUS "BOOST_MINIMUM_VERSION=${BOOST_MINIMUM_VERSION}")
-message(STATUS "POSTGIS_MINIMUM_VERSION=${POSTGIS_MINIMUM_VERSION}")
 
 # cmake 3.2 adds unwanted flags
 if(WIN32 AND MSVC)
@@ -78,18 +78,13 @@ set(CMAKE_C_STANDARD 11)
 # Boost
 #---------------------------------------------
 #---------------------------------------------
-
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED)
 if (NOT Boost_VERSION_MACRO)
   set(Boost_VERSION_MACRO ${Boost_VERSION})
 endif()
 add_definitions(-DBoost_VERSION_MACRO=${Boost_VERSION_MACRO})
-set(BOOST_VERSION "${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
-
 add_definitions(-DBOOST_ALLOW_DEPRECATED_HEADERS)
 include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
-
-
 
 
 #---------------------------------------------
@@ -138,7 +133,7 @@ endif()
 # Perl
 #---------------------------------------------
 #---------------------------------------------
-include(FindPerl)
+find_package(Perl REQUIRED)
 
 #---------------------------------------------
 #---------------------------------------------
@@ -187,7 +182,7 @@ add_definitions(-DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
 add_definitions(-DPROJECT_LIB_NAME="${PROJECT_NAME_LOWER}-${PROJECT_VERSION}")
 add_definitions(-DPROJECT_GIT_HASH="${PROJECT_GIT_HASH}")
 string(TIMESTAMP COMPILATION_DATE "\"%Y/%m/%d\"")
-add_definitions(-DBOOST_VERSION="${BOOST_VERSION}")
+add_definitions(-DBOOST_VERSION="${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
 add_definitions(-DCOMPILATION_DATE=${COMPILATION_DATE})
 add_definitions(-DCOMPILER_VERSION="${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
 add_definitions(-DPostgreSQL_VERSION_STRING="${POSTGRESQL_VERSION_STRING}")
@@ -312,34 +307,6 @@ endif()
 
 
 
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-if (PROJECT_DEBUG)
-  message(STATUS "CMAKE_CXX_FLAGS_DEBUG= ${CMAKE_CXX_FLAGS_DEBUG}")
-  message(STATUS "CMAKE_CXX_FLAGS_RELEASE= ${CMAKE_CXX_FLAGS_RELEASE}")
-  message(STATUS "CMAKE_CXX_FLAGS= ${CMAKE_CXX_FLAGS}")
-
-  message(STATUS "CMAKE_C_FLAGS_DEBUG= ${CMAKE_C_FLAGS_DEBUG}")
-  message(STATUS "CMAKE_C_FLAGS_RELEASE= ${CMAKE_C_FLAGS_RELEASE}")
-  message(STATUS "CMAKE_C_FLAGS= ${CMAKE_C_FLAGS}")
-
-  message(STATUS "UNIX=${UNIX}")
-  message(STATUS "WIN32=${WIN32}")
-  message(STATUS "MSVC=${MSVC}")
-endif()
-
-#+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-
-
-#====================================================================
-# Include the working directories
-#====================================================================
-
-if(WITH_INTERNAL_TESTS)
-  message("Including InternalQueryTests")
-  set(PROJECT_SRC_DIRECTORIES ${PROJECT_SRC_DIRECTORIES} "internalQueryTests")
-endif()
-
 #-------------------
 # add the subdirectories that have the C/C++ code
 #-------------------
@@ -349,13 +316,17 @@ foreach (subdir ${PROJECT_SRC_DIRECTORIES})
 endforeach()
 
 
-#====================================================================
+
+#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
+# PROJECT Library
+#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
 
 
-
-# assemble the object files from the src functions into
-# a single library librouting.so
-set(LIBRARY_OUTPUT_PATH lib)
+set(LIBRARY_OUTPUT_DIRECTORY lib)
 
 if(APPLE)
   set(LIBRARY_MODE_TARGET "MODULE")
@@ -397,7 +368,6 @@ endif(WIN32 AND MSVC)
 #-----------------------------------------------------------------------------
 
 add_subdirectory(sql)
-
 
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
