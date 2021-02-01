@@ -70,6 +70,9 @@ endif()
 #-----------------------------------------------------------------------------
 
 
+set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_C_STANDARD 11)
+
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED)
 if (NOT Boost_VERSION_MACRO)
   set(Boost_VERSION_MACRO ${Boost_VERSION})
@@ -79,6 +82,7 @@ set(BOOST_VERSION "${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINO
 
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
+if (false)
 if (BOOST_VERSION VERSION_LESS "1.75.0")
   CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
   if(COMPILER_SUPPORTS_CXX11)
@@ -97,6 +101,7 @@ if (BOOST_VERSION VERSION_LESS "1.75.0")
   endif()
 else()
   set(CMAKE_CXX_STANDARD 14)
+endif()
 endif()
 
 add_definitions(-DBOOST_ALLOW_DEPRECATED_HEADERS)
