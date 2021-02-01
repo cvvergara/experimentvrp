@@ -139,8 +139,21 @@ if(POSTGRESQL_BIN)
 else()
   find_program(POSTGRESQL_PG_CONFIG NAMES pg_config)
 endif()
+if(POSTGRESQL_PG_CONFIG)
+  execute_process(
+    COMMAND ${POSTGRESQL_PG_CONFIG} --bindir
+    OUTPUT_STRIP_TRAILING_WHITESPACE
+    OUTPUT_VARIABLE T_POSTGRESQL_BIN)
+endif(POSTGRESQL_PG_CONFIG)
 
-find_program(POSTGRESQL_PG_CONFIG pg_config)
+# search for POSTGRESQL_EXECUTABLE _only_ in the dir specified by pg_config
+find_program(POSTGRESQL_EXECUTABLE NAMES postgres
+  PATHS
+  ${T_POSTGRESQL_BIN}
+  NO_DEFAULT_PATH
+  )
+
+
 
 # for XbetaY XalphaY XrcY -> X.Y
 string(REGEX REPLACE "^([0-9]+)[beta|alpha|rc|devel].*" "\\1.0" PostgreSQL_VERSION_STRING ${PostgreSQL_VERSION_STRING})
