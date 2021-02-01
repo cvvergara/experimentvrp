@@ -29,7 +29,6 @@ include(pgr/Version)
 add_definitions(-DPROJECT_VERSION="${PROJECT_VERSION}${PROJECT_VERSION_DEV}")
 set(PROJECT_LIB_NAME "${PROJECT_NAME_LOWER}-${PROJECT_LIB_VERSION}")
 
-string(TIMESTAMP COMPILATION_DATE "%Y/%m/%d")
 
 set(MINORS 0.0)
 set(OLD_SIGNATURES
@@ -70,6 +69,7 @@ endif()
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 
+
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED)
 if (NOT Boost_VERSION_MACRO)
   set(Boost_VERSION_MACRO ${Boost_VERSION})
@@ -100,7 +100,6 @@ else()
 endif()
 
 add_definitions(-DBOOST_ALLOW_DEPRECATED_HEADERS)
-set(COMPILER_VERSION "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
 
 
 #---------------------------------------------
@@ -201,6 +200,20 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 
 #---------------------------------------------
+#---------------------------------------------
+# Definitions for full_version
+#---------------------------------------------
+#---------------------------------------------
+add_definitions(-DCMAKE_BUILD_TYPE="${CMAKE_BUILD_TYPE}")
+add_definitions(-DPROJECT_LIB_NAME="${PROJECT_NAME_LOWER}-${PROJECT_VERSION}")
+add_definitions(-DPROJECT_GIT_HASH="${PROJECT_GIT_HASH}")
+string(TIMESTAMP COMPILATION_DATE "\"%Y/%m/%d\"")
+add_definitions(-DBOOST_VERSION="${BOOST_VERSION}")
+add_definitions(-DCOMPILATION_DATE=${COMPILATION_DATE})
+add_definitions(-DCOMPILER_VERSION="${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
+add_definitions(-DPostgreSQL_VERSION_STRING="${POSTGRESQL_VERSION_STRING}")
+add_definitions(-DSYSTEM_NAME="${CMAKE_SYSTEM}")
+
 if (PROJECT_DEBUG)
   message(STATUS "PERL_VERSION_STRING = ${PERL_VERSION_STRING}")
   message(STATUS "POSTGRESQL_VERSION is ${PGSQL_VERSION}")
