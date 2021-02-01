@@ -109,18 +109,6 @@ if(WIN32 AND NOT MSVC)
   endif()
 endif(WIN32 AND NOT MSVC)
 
-if(WIN32 AND MSVC)
-  add_compile_options(
-    -D_CRT_SECURE_NO_DEPRECATE
-    -D_SCL_SECURE_NO_DEPRECATE
-    -D_CRT_SECURE_NO_WARNINGS
-    -D_SCL_SECURE_NO_WARNINGS
-    -D_CRT_NONSTDC_NO_DEPRECATE
-    -D_CRT_NONSTDC_NO_DEPRECATE
-    -EHsc)
-endif()
-
-#-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 # Finding prerequisites
@@ -282,7 +270,14 @@ if(NOT WIN32)
 endif()
 
 if(WIN32 AND MSVC)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS}")
+  add_compile_options(
+    -D_CRT_SECURE_NO_DEPRECATE
+    -D_SCL_SECURE_NO_DEPRECATE
+    -D_CRT_SECURE_NO_WARNINGS
+    -D_SCL_SECURE_NO_WARNINGS
+    -D_CRT_NONSTDC_NO_DEPRECATE
+    -D_CRT_NONSTDC_NO_DEPRECATE
+    -EHsc)
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
