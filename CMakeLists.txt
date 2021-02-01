@@ -139,6 +139,7 @@ if(POSTGRESQL_BIN)
 else()
   find_program(POSTGRESQL_PG_CONFIG NAMES pg_config)
 endif()
+
 if(POSTGRESQL_PG_CONFIG)
   execute_process(
     COMMAND ${POSTGRESQL_PG_CONFIG} --bindir
@@ -246,7 +247,7 @@ endif(SHARE_DIR)
 #---------------------------------------------
 
 if (PROJECT_DEBUG)
-  message(STATUS "POSTGRESQL_LIBRARIES=${POSTGRESQL_LIBRARIES}")
+  message(STATUS "PostgreSQL_LIBRARIES=${PostgreSQL_LIBRARIES}")
   message(STATUS "LIBRARY_INSTALL_PATH=${LIBRARY_INSTALL_PATH}")
   message(STATUS "SHARE_DIR=${SHARE_DIR}")
 endif()
@@ -258,8 +259,8 @@ endif()
 #---------------------------------------------
 
 if(WIN32)
-  link_directories(${POSTGRESQL_LIBRARIES})
-  link_libraries(postgres)
+  link_directories(${PostgreSQL_LIBRARIES})
+  link_libraries(${POSTGRES_EXECUTABLE})
 endif()
 
 #-----------------------------------------------------------------------------
