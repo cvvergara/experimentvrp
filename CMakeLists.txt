@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
 
 if (${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-    message(FATAL_ERROR "In-source builds not allowed.
-    Please make a new directory (called a build directory) and run CMake from there.
-    You may need to remove CMakeCache.txt." )
+  message(FATAL_ERROR "In-source builds not allowed.
+  Please make a new directory (called a build directory) and run CMake from there.
+  You may need to remove CMakeCache.txt." )
 endif()
 
 #---------------------------------------------
@@ -12,6 +12,8 @@ endif()
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(pgr/BuildType)
+add_definitions(-DBUILD_TYPE="${CMAKE_BUILD_TYPE}")
+
 
 
 #---------------------------------------------
@@ -19,21 +21,27 @@ include(pgr/BuildType)
 #---------------------------------------------
 
 project(VRPROUTING VERSION 0.0.0
-    LANGUAGES C CXX )
+  LANGUAGES C CXX )
 set(PROJECT_VERSION_DEV "")
 string(TOLOWER "${PROJECT_NAME}" PROJECT_NAME_LOWER)
 
 include(pgr/GitInfo)
+add_definitions(-DPROJECT_GIT_HASH="${PROJECT_GIT_HASH}")
+
 include(pgr/Version)
 
 add_definitions(-DPROJECT_VERSION="${PROJECT_VERSION}${PROJECT_VERSION_DEV}")
+add_definitions(-DPROJECT_LIB_NAME="${PROJECT_NAME_LOWER}-${PROJECT_VERSION}")
 set(PROJECT_LIB_NAME "${PROJECT_NAME_LOWER}-${PROJECT_LIB_VERSION}")
 
-string(TIMESTAMP COMPILATION_DATE "%Y/%m/%d")
+
+string(TIMESTAMP COMPILATION_DATE "\"%Y/%m/%d\"")
+add_definitions(-DCOMPILATION_DATE=${COMPILATION_DATE})
+add_definitions(-DSYSTEM_NAME="${CMAKE_SYSTEM}")
 
 set(MINORS 0.0)
 set(OLD_SIGNATURES
-    )
+  )
 
 
 
@@ -60,8 +68,8 @@ message(STATUS "POSTGIS_MINIMUM_VERSION=${POSTGIS_MINIMUM_VERSION}")
 
 # cmake 3.2 adds unwanted flags
 if(WIN32 AND MSVC)
-    set(CMAKE_C_FLAGS "")
-    set(CMAKE_CXX_FLAGS "")
+  set(CMAKE_C_FLAGS "")
+  set(CMAKE_CXX_FLAGS "")
 endif()
 
 #-----------------------------------------------------------------------------
@@ -72,35 +80,37 @@ endif()
 
 find_package(Boost ${BOOST_MINIMUM_VERSION} REQUIRED)
 if (NOT Boost_VERSION_MACRO)
-    set(Boost_VERSION_MACRO ${Boost_VERSION})
+  set(Boost_VERSION_MACRO ${Boost_VERSION})
 endif()
 add_definitions(-DBoost_VERSION_MACRO=${Boost_VERSION_MACRO})
-set(BOOST_VERSION "${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}")
+set(BOOST_VERSION "\"${Boost_MAJOR_VERSION}.${Boost_MINOR_VERSION}.${Boost_SUBMINOR_VERSION}\"")
+add_definitions(-DBOOST_VERSION=${BOOST_VERSION})
 
 include(CheckCCompilerFlag)
 include(CheckCXXCompilerFlag)
 if (BOOST_VERSION VERSION_LESS "1.75.0")
-    CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
-    if(COMPILER_SUPPORTS_CXX11)
-        set(CMAKE_CXX_STANDARD 11)
-        set(CMAKE_CXX_STANDARD_REQUIRED ON)
-        set(CMAKE_CXX_EXTENSIONS OFF)
+  CHECK_CXX_COMPILER_FLAG("-std=c++11" COMPILER_SUPPORTS_CXX11)
+  if(COMPILER_SUPPORTS_CXX11)
+    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+    set(CMAKE_CXX_EXTENSIONS OFF)
+  else()
+    CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
+    if(COMPILER_SUPPORTS_CXX0X)
+      add_compile_options("-std=c++0x")
+      message(STATUS "Using  -std=c++0x.")
     else()
-        CHECK_CXX_COMPILER_FLAG("-std=c++0x" COMPILER_SUPPORTS_CXX0X)
-        if(COMPILER_SUPPORTS_CXX0X)
-            add_compile_options("-std=c++0x")
-            message(STATUS "Using  -std=c++0x.")
-        else()
-        message(WARNING "The compiler ${CMAKE_CXX_COMPILER} has no C++0x or C++11 flags support.
-            Using: callback compiler's standard")
-        endif()
+      message(WARNING "The compiler ${CMAKE_CXX_COMPILER} has no C++0x or C++11 flags support.
+      Using: callback compiler's standard")
     endif()
+  endif()
 else()
-    set(CMAKE_CXX_STANDARD 14)
+  set(CMAKE_CXX_STANDARD 14)
 endif()
 
 add_definitions(-DBOOST_ALLOW_DEPRECATED_HEADERS)
-set(COMPILER_VERSION "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
+set(COMPILER_VERSION "\"${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}\"")
+add_definitions(-DCOMPILER_VERSION="\"${COMPILER_VERSION}\"")
 
 
 #---------------------------------------------
@@ -109,31 +119,31 @@ set(COMPILER_VERSION "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}")
 
 
 if(WIN32 AND NOT MSVC)
-    set(OS_BUILD  $ENV{OS_BUILD})
-    if(NOT OS_BUILD)
-        set(OS_BUILD "64")
-    endif()
-    set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}:/c/ming${OS_BUILD}/projects/pgx${OS_BUILD}/pg92)
-    if (NOT BOOST_ROOT)
-        set(BOOST_ROOT c:/ming${OS_BUILD}/msys/local)
-    endif()
+  set(OS_BUILD  $ENV{OS_BUILD})
+  if(NOT OS_BUILD)
+    set(OS_BUILD "64")
+  endif()
+  set(CMAKE_PREFIX_PATH ${CMAKE_PREFIX_PATH}:/c/ming${OS_BUILD}/projects/pgx${OS_BUILD}/pg92)
+  if (NOT BOOST_ROOT)
+    set(BOOST_ROOT c:/ming${OS_BUILD}/msys/local)
+  endif()
 
-    if (PROJECT_DEBUG)
-        message(STATUS "OS_BUILD=${OS_BUILD}")
-        message(STATUS "BOOST_ROOT=${BOOST_ROOT}")
-        message(STATUS "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
-    endif()
+  if (PROJECT_DEBUG)
+    message(STATUS "OS_BUILD=${OS_BUILD}")
+    message(STATUS "BOOST_ROOT=${BOOST_ROOT}")
+    message(STATUS "CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}")
+  endif()
 endif(WIN32 AND NOT MSVC)
 
 if(WIN32 AND MSVC)
-    add_compile_options(
-        -D_CRT_SECURE_NO_DEPRECATE
-        -D_SCL_SECURE_NO_DEPRECATE
-        -D_CRT_SECURE_NO_WARNINGS
-        -D_SCL_SECURE_NO_WARNINGS
-        -D_CRT_NONSTDC_NO_DEPRECATE
-        -D_CRT_NONSTDC_NO_DEPRECATE
-        -EHsc)
+  add_compile_options(
+    -D_CRT_SECURE_NO_DEPRECATE
+    -D_SCL_SECURE_NO_DEPRECATE
+    -D_CRT_SECURE_NO_WARNINGS
+    -D_SCL_SECURE_NO_WARNINGS
+    -D_CRT_NONSTDC_NO_DEPRECATE
+    -D_CRT_NONSTDC_NO_DEPRECATE
+    -EHsc)
 endif()
 
 #-----------------------------------------------------------------------------
@@ -151,7 +161,7 @@ endif()
 #---------------------------------------------
 include(FindPerl)
 if(NOT PERL_EXECUTABLE)
-    message(FATAL_ERROR "perl NOT FOUND - Please check your Perl installation.")
+  message(FATAL_ERROR "perl NOT FOUND - Please check your Perl installation.")
 endif()
 
 #---------------------------------------------
@@ -159,36 +169,35 @@ endif()
 # PostgreSQL
 #---------------------------------------------
 #---------------------------------------------
-find_package(PostgreSQL)
-if(NOT POSTGRESQL_FOUND OR NOT POSTGRESQL_VERSION_STRING)
-    message(FATAL_ERROR "PostgreSQL not found - Please check your PostgreSQL installation.")
+if (POSTGRES_VERSION)
+  set(PostgreSQL_ADDITIONAL_VERSIONS ${POSTGRES_VERSION})
 endif()
-
-message(STATUS "POSTGRESQL_VERSION_STRING=${POSTGRESQL_VERSION_STRING}")
-string(SUBSTRING "${POSTGRESQL_VERSION_STRING}" 11 -1 POSTGRESQL_VERSION)
+find_package(PostgreSQL ${POSTGRESQL_MINIMUM_VERSION} REQUIRED)
+find_program(POSTGRESQL_PG_CONFIG pg_config)
+add_definitions(-DPostgreSQL_VERSION_STRING="${PostgreSQL_VERSION_STRING}")
 
 # for XbetaY XalphaY XrcY -> X.Y
-string(REGEX REPLACE "^([0-9]+)[beta|alpha|rc|devel].*" "\\1.0" POSTGRESQL_VERSION ${POSTGRESQL_VERSION})
-
+string(REGEX REPLACE "^([0-9]+)[beta|alpha|rc|devel].*" "\\1.0" PostgreSQL_VERSION_STRING ${PostgreSQL_VERSION_STRING})
 #for X.Y.Z -> XY  Y<10
-string(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*" "\\1\\2" PGSQL_VERSION ${POSTGRESQL_VERSION})
+string(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*" "\\1" PostgreSQL_VERSION_MAYOR ${PostgreSQL_VERSION_STRING})
+string(REGEX REPLACE "^([0-9]+)\\.([0-9]+).*" "\\2" PostgreSQL_VERSION_MINOR ${PostgreSQL_VERSION_STRING})
+math(EXPR PostgreSQL_VERSION_NUM "${PostgreSQL_VERSION_MAYOR} * 10000 + ${PostgreSQL_VERSION_MINOR}")
 
 
-if("${POSTGRESQL_VERSION}" VERSION_LESS "${POSTGRESQL_MINIMUM_VERSION}")
-    message(FATAL_ERROR " PostgreSQL ${POSTGRESQL_MINIMUM_VERSION} or greater is required.")
-endif("${POSTGRESQL_VERSION}" VERSION_LESS "${POSTGRESQL_MINIMUM_VERSION}")
+# To be used in defines
+add_definitions(-DPostgreSQL_VERSION_NUM=${PostgreSQL_VERSION_NUM})
+
 
 #-------
-include_directories(SYSTEM ${POSTGRESQL_INCLUDE_DIR})
+include_directories(SYSTEM ${PostgreSQL_INCLUDE_DIRS})
 if(WIN32)
-    include_directories(SYSTEM ${POSTGRESQL_INCLUDE_DIR}/port/win32)
-    if(MSVC)
-        include_directories(SYSTEM ${POSTGRESQL_INCLUDE_DIR}/port/win32_msvc/)
-    endif()
+  include_directories(SYSTEM ${PostgreSQL_INCLUDE_DIRS}/port/win32)
+  if(MSVC)
+    include_directories(SYSTEM ${PostgreSQL_INCLUDE_DIRS}/port/win32_msvc/)
+  endif()
+else()
+  include_directories(SYSTEM ${PostgreSQL_INCLUDE_DIRS})
 endif()
-
-add_definitions(-DPGSQL_VERSION=${PGSQL_VERSION})
-message(STATUS "PGSQL_VERSION=${PGSQL_VERSION}")
 
 
 #---------------------------------------------
@@ -202,11 +211,11 @@ include_directories(SYSTEM ${Boost_INCLUDE_DIRS})
 
 #---------------------------------------------
 if (PROJECT_DEBUG)
-    message(STATUS "PERL_VERSION_STRING = ${PERL_VERSION_STRING}")
-    message(STATUS "POSTGRESQL_VERSION is ${PGSQL_VERSION}")
-    message(STATUS "PGSQL_VERSION is ${PGSQL_VERSION}")
-    message(STATUS "Boost_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}")
-    message(STATUS "POSTGRESQL_INCLUDE_DIR = ${POSTGRESQL_INCLUDE_DIR}")
+  message(STATUS "PERL_VERSION_STRING = ${PERL_VERSION_STRING}")
+  message(STATUS "POSTGRESQL_VERSION is ${PGSQL_VERSION}")
+  message(STATUS "PGSQL_VERSION is ${PGSQL_VERSION}")
+  message(STATUS "Boost_INCLUDE_DIRS = ${Boost_INCLUDE_DIRS}")
+  message(STATUS "POSTGRESQL_INCLUDE_DIR = ${POSTGRESQL_INCLUDE_DIR}")
 endif()
 
 
@@ -221,12 +230,12 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 # library directory
 #---------------------------------------------
 execute_process(
-    COMMAND ${POSTGRESQL_PG_CONFIG} --pkglibdir
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE LIBRARY_INSTALL_PATH)
+  COMMAND ${POSTGRESQL_PG_CONFIG} --pkglibdir
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  OUTPUT_VARIABLE LIBRARY_INSTALL_PATH)
 
 if(NOT LIBRARY_INSTALL_PATH)
-    message(FATAL_ERROR "pg_config --pkglibdir failed to return a value. Please check your PostgreSQL installation!")
+  message(FATAL_ERROR "pg_config --pkglibdir failed to return a value. Please check your PostgreSQL installation!")
 endif()
 
 message(STATUS "LIBRARY_INSTALL_PATH ${LIBRARY_INSTALL_PATH}")
@@ -236,23 +245,23 @@ message(STATUS "LIBRARY_INSTALL_PATH ${LIBRARY_INSTALL_PATH}")
 #---------------------------------------------
 
 execute_process(
-    COMMAND ${POSTGRESQL_PG_CONFIG} --sharedir
-    OUTPUT_STRIP_TRAILING_WHITESPACE
-    OUTPUT_VARIABLE SHARE_DIR)
+  COMMAND ${POSTGRESQL_PG_CONFIG} --sharedir
+  OUTPUT_STRIP_TRAILING_WHITESPACE
+  OUTPUT_VARIABLE SHARE_DIR)
 
 #-------
 if(SHARE_DIR)
-    set(SHARE_DIR "${SHARE_DIR}/extension")
+  set(SHARE_DIR "${SHARE_DIR}/extension")
 else(SHARE_DIR)
-    message(FATAL_ERROR "pg_config --sharedir failed to return a value. Please check your PostgreSQL installation!")
+  message(FATAL_ERROR "pg_config --sharedir failed to return a value. Please check your PostgreSQL installation!")
 endif(SHARE_DIR)
 
 #---------------------------------------------
 
 if (PROJECT_DEBUG)
-    message(STATUS "POSTGRESQL_LIBRARIES=${POSTGRESQL_LIBRARIES}")
-    message(STATUS "LIBRARY_INSTALL_PATH=${LIBRARY_INSTALL_PATH}")
-    message(STATUS "SHARE_DIR=${SHARE_DIR}")
+  message(STATUS "POSTGRESQL_LIBRARIES=${POSTGRESQL_LIBRARIES}")
+  message(STATUS "LIBRARY_INSTALL_PATH=${LIBRARY_INSTALL_PATH}")
+  message(STATUS "SHARE_DIR=${SHARE_DIR}")
 endif()
 
 
@@ -262,15 +271,15 @@ endif()
 #---------------------------------------------
 
 if(WIN32)
-    link_directories(${POSTGRESQL_LIBRARIES})
-    link_libraries(postgres)
+  link_directories(${POSTGRESQL_LIBRARIES})
+  link_libraries(postgres)
 endif()
 
 #-----------------------------------------------------------------------------
 
 if (PROJECT_DEBUG)
-    get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
-    message(STATUS "INCLUDE_DIRECTORIES='${dirs}'")
+  get_property(dirs DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY INCLUDE_DIRECTORIES)
+  message(STATUS "INCLUDE_DIRECTORIES='${dirs}'")
 endif()
 
 
@@ -280,38 +289,38 @@ endif()
 # https://www.postgresql.org/docs/10/xfunc-c.html
 
 if(NOT WIN32)
-    CHECK_C_COMPILER_FLAG("-fPIC" C_COMPILER_SUPPORTS_FPIC)
-    CHECK_CXX_COMPILER_FLAG("-fPIC" CXX_COMPILER_SUPPORTS_FPIC)
-    if(C_COMPILER_SUPPORTS_FPIC)
-        set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC ")
-    endif()
-    if(CXX_COMPILER_SUPPORTS_FPIC)
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC ")
-    endif()
+  CHECK_C_COMPILER_FLAG("-fPIC" C_COMPILER_SUPPORTS_FPIC)
+  CHECK_CXX_COMPILER_FLAG("-fPIC" CXX_COMPILER_SUPPORTS_FPIC)
+  if(C_COMPILER_SUPPORTS_FPIC)
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fPIC ")
+  endif()
+  if(CXX_COMPILER_SUPPORTS_FPIC)
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fPIC ")
+  endif()
 endif()
 
 if(WIN32 AND MSVC)
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS}")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${CMAKE_C_FLAGS}")
 endif()
 
 if(CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
-    if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
-        CHECK_C_COMPILER_FLAG("-frounding-math" C_COMPILER_SUPPORTS_ROUNDING_MATH)
-        CHECK_CXX_COMPILER_FLAG("-frounding-math" CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
-        if(C_COMPILER_SUPPORTS_ROUNDING_MATH)
-            set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -frounding-math ")
-        endif()
-        if(CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
-            set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frounding-math ")
-        endif()
+  if (CMAKE_CXX_COMPILER_ID MATCHES "GNU")
+    CHECK_C_COMPILER_FLAG("-frounding-math" C_COMPILER_SUPPORTS_ROUNDING_MATH)
+    CHECK_CXX_COMPILER_FLAG("-frounding-math" CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
+    if(C_COMPILER_SUPPORTS_ROUNDING_MATH)
+      set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -frounding-math ")
     endif()
+    if(CXX_COMPILER_SUPPORTS_ROUNDING_MATH)
+      set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -frounding-math ")
+    endif()
+  endif()
 
-    set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -Wall -Wconversion -Wmissing-prototypes -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
-    if(BOOST_Geometry_VERSION_OK)
-        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wconversion -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
-    else()
-        set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
-    endif()
+  set(CMAKE_C_FLAGS_DEBUG   "${CMAKE_C_FLAGS_DEBUG}   -Wall -Wconversion -Wmissing-prototypes -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
+  if(BOOST_Geometry_VERSION_OK)
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -Wconversion -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
+  else()
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wall -pedantic -W -Wunused -Wuninitialized -Wextra -Wdouble-promotion")
+  endif()
 endif()
 
 
@@ -319,17 +328,17 @@ endif()
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 if (PROJECT_DEBUG)
-    message(STATUS "CMAKE_CXX_FLAGS_DEBUG= ${CMAKE_CXX_FLAGS_DEBUG}")
-    message(STATUS "CMAKE_CXX_FLAGS_RELEASE= ${CMAKE_CXX_FLAGS_RELEASE}")
-    message(STATUS "CMAKE_CXX_FLAGS= ${CMAKE_CXX_FLAGS}")
+  message(STATUS "CMAKE_CXX_FLAGS_DEBUG= ${CMAKE_CXX_FLAGS_DEBUG}")
+  message(STATUS "CMAKE_CXX_FLAGS_RELEASE= ${CMAKE_CXX_FLAGS_RELEASE}")
+  message(STATUS "CMAKE_CXX_FLAGS= ${CMAKE_CXX_FLAGS}")
 
-    message(STATUS "CMAKE_C_FLAGS_DEBUG= ${CMAKE_C_FLAGS_DEBUG}")
-    message(STATUS "CMAKE_C_FLAGS_RELEASE= ${CMAKE_C_FLAGS_RELEASE}")
-    message(STATUS "CMAKE_C_FLAGS= ${CMAKE_C_FLAGS}")
+  message(STATUS "CMAKE_C_FLAGS_DEBUG= ${CMAKE_C_FLAGS_DEBUG}")
+  message(STATUS "CMAKE_C_FLAGS_RELEASE= ${CMAKE_C_FLAGS_RELEASE}")
+  message(STATUS "CMAKE_C_FLAGS= ${CMAKE_C_FLAGS}")
 
-    message(STATUS "UNIX=${UNIX}")
-    message(STATUS "WIN32=${WIN32}")
-    message(STATUS "MSVC=${MSVC}")
+  message(STATUS "UNIX=${UNIX}")
+  message(STATUS "WIN32=${WIN32}")
+  message(STATUS "MSVC=${MSVC}")
 endif()
 
 #+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -340,8 +349,8 @@ endif()
 #====================================================================
 
 if(WITH_INTERNAL_TESTS)
-    message("Including InternalQueryTests")
-    set(PROJECT_SRC_DIRECTORIES ${PROJECT_SRC_DIRECTORIES} "internalQueryTests")
+  message("Including InternalQueryTests")
+  set(PROJECT_SRC_DIRECTORIES ${PROJECT_SRC_DIRECTORIES} "internalQueryTests")
 endif()
 
 #-------------------
@@ -349,7 +358,7 @@ endif()
 #-------------------
 
 foreach (subdir ${PROJECT_SRC_DIRECTORIES})
-    add_subdirectory("${PROJECT_SOURCE_DIR}/src/${subdir}")
+  add_subdirectory("${PROJECT_SOURCE_DIR}/src/${subdir}")
 endforeach()
 
 
@@ -362,9 +371,9 @@ endforeach()
 set(LIBRARY_OUTPUT_PATH lib)
 
 if(APPLE)
-    set(LIBRARY_MODE_TARGET "MODULE")
+  set(LIBRARY_MODE_TARGET "MODULE")
 else(APPLE)
-    set(LIBRARY_MODE_TARGET "SHARED")
+  set(LIBRARY_MODE_TARGET "SHARED")
 endif(APPLE)
 
 
@@ -374,7 +383,7 @@ LINK_LIBRARIES(${BOOST_THREAD_LIBRARIES})
 # pgRouting objects to be linked
 #-------------------
 foreach (subdir ${PROJECT_SRC_DIRECTORIES} )
-    set(PROJECT_OBJECTS ${PROJECT_OBJECTS} "$<TARGET_OBJECTS:${subdir}>")
+  set(PROJECT_OBJECTS ${PROJECT_OBJECTS} "$<TARGET_OBJECTS:${subdir}>")
 endforeach()
 
 
@@ -388,24 +397,24 @@ endforeach()
 #----------------------
 
 if (PROJECT_DEBUG)
-    message(STATUS "PROJECT_LIB_NAME ${PROJECT_LIB_NAME}")
+  message(STATUS "PROJECT_LIB_NAME ${PROJECT_LIB_NAME}")
 endif()
 
 
 
 add_library(${PROJECT_LIB_NAME}
-    ${LIBRARY_MODE_TARGET}
-    ${PROJECT_OBJECTS})
+  ${LIBRARY_MODE_TARGET}
+  ${PROJECT_OBJECTS})
 
 
 
 if(APPLE)
-    set_target_properties(${PROJECT_LIB_NAME}
-        PROPERTIES
-        LINK_FLAGS "-bundle_loader ${POSTGRESQL_EXECUTABLE} -bundle")
+  set_target_properties(${PROJECT_LIB_NAME}
+    PROPERTIES
+    LINK_FLAGS "-bundle_loader ${POSTGRESQL_EXECUTABLE} -bundle")
 endif(APPLE)
 if(WIN32 AND MSVC)
-    set_target_properties(${PROJECT_LIB_NAME} PROPERTIES PREFIX "lib")
+  set_target_properties(${PROJECT_LIB_NAME} PROPERTIES PREFIX "lib")
 endif(WIN32 AND MSVC)
 
 
@@ -419,7 +428,7 @@ endif(WIN32 AND MSVC)
 
 add_subdirectory(sql)
 if (PROJECT_DEBUG)
-    message(STATUS "PROJECT_FILES_TO_INSTALL=${PROJECT_FILES_TO_INSTALL}")
+  message(STATUS "PROJECT_FILES_TO_INSTALL=${PROJECT_FILES_TO_INSTALL}")
 endif()
 
 
@@ -432,9 +441,9 @@ endif()
 
 install(TARGETS ${PROJECT_LIB_NAME} DESTINATION ${LIBRARY_INSTALL_PATH})
 install(FILES
-    ${PROJECT_FILES_TO_INSTALL}
-    DESTINATION "${SHARE_DIR}"
-    )
+  ${PROJECT_FILES_TO_INSTALL}
+  DESTINATION "${SHARE_DIR}"
+  )
 
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
