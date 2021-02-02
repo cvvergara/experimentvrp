@@ -25,7 +25,7 @@ environment:
   CONFIGURATION: Release
   MSVC_VER: 16.0
   BUILD_ROOT_DIR: c:\build
-  PGIS_VERSION: 3
+  PGIS_VERSION: 3.0
   PG_VER: 10
 
 
