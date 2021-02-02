@@ -2,8 +2,12 @@
 SET(LOCAL_FILES
     _pickDeliver.sql
     pickDeliver.sql
+
     _pickDeliverEuclidean.sql
     pickDeliverEuclidean.sql
+
+    _pgr_vrpOneDepot.sql
+    pgr_vrpOneDepot.sql
     )
 
 foreach (f ${LOCAL_FILES})
