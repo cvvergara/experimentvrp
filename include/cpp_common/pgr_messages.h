@@ -23,7 +23,9 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
  ********************************************************************PGR-GNU*/
 
-/*! @file */
+/** @file
+File from pgRouting
+*/
 
 #ifndef INCLUDE_CPP_COMMON_PGR_MESSAGES_H_
 #define INCLUDE_CPP_COMMON_PGR_MESSAGES_H_
@@ -36,45 +38,53 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 namespace vrprouting {
 
+
+/** @brief Messages Handling
+ *
+ * A common structure to be used on the C++ code that stores
+ * messages intended for PostgreSQL
+ *
+ * Messages currently handled:
+ * log
+ * notice
+ * error
+ */
 class Pgr_messages {
  public:
     Pgr_messages() = default;
     Pgr_messages(const Pgr_messages&) = delete;
     Pgr_messages& operator=(const Pgr_messages&) = delete;
 
-    /*! @brief get_log
+    /*! @brief gets the contents of @b log message
      *
-     * \returns the current contents of the log and clears the log
+     * @returns the current contents of @b log
      *
      */
     std::string get_log() const;
 
-    /*! @brief get_notice
+    /*! @brief gets the contents of @b notice message
      *
-     * @returns the current contents of the log and clears the log
+     * @returns the current contents of @b notice
      *
      */
     std::string get_notice() const;
 
-    /*! @brief get_error
+    /*! @brief gets the contents of notice message
      *
-     * @returns the current contents of the log and clears the log
+     * @returns true when @b error message is not empty
      */
     bool has_error() const;
 
-    /*! @brief get_error
+    /*! @brief gets the contents of @b error message
      *
-     * @returns the current contents of the log and clears the log
+     * @returns the current contents of @b error
      *
      */
     std::string get_error() const;
 
-    /*! @brief clear
-     *
-     * Clears All the messages
-     *
-     */
+    /*! @brief Clears @b all the messages */
     void clear();
+
 
  public:
     /*! Stores the hint information*/
@@ -86,6 +96,7 @@ class Pgr_messages {
 };
 
 
+
 #if defined(__MINGW32__) || defined(_MSC_VER)
 #define ENTERING(x)
 #define EXITING(x)
@@ -93,7 +104,6 @@ class Pgr_messages {
 #define ENTERING(x) x.log << "\n--> " << __PRETTY_FUNCTION__ << "\n"
 #define EXITING(x) x.log << "\n<-- " << __PRETTY_FUNCTION__ << "\n"
 #endif
-
 
 
 
