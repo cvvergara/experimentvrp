@@ -39,7 +39,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "c_types/pickDeliver/vehicle_t.h"
 #include "c_types/pickDeliver/general_vehicle_orders_t.h"
 #include "vrp/pd_problem.h"
-#include "cpp_common/Dmatrix.h"
+#include "cpp_common/matrix.h"
 #include "vrp/pd_orders.h"
 #include "vrp/fleet.h"
 #include "vrp/solution.h"
@@ -77,7 +77,7 @@ class Pgr_pickDeliver : public PD_problem {
     Pgr_pickDeliver(
             const std::vector<PickDeliveryOrders_t> &pd_orders,
             const std::vector<Vehicle_t> &vehicles,
-            const vrprouting::tsp::Dmatrix &cost_matrix,
+            const vrprouting::Matrix &cost_matrix,
             double factor,
             size_t max_cycles,
             int initial);
@@ -137,7 +137,7 @@ class Pgr_pickDeliver : public PD_problem {
 #if 0
     std::vector<std::unique_ptr<Base_node>> m_base_nodes;
 #endif
-    vrprouting::tsp::Dmatrix m_cost_matrix;
+    vrprouting::Matrix m_cost_matrix;
 
  private:
     PD_Orders m_orders;
