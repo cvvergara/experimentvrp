@@ -11,7 +11,7 @@ echo platform %platform%
 :: Set some defaults. Infer some variables.
 ::
 
-if not defined MSVC_VER set MSVC_VER=12.0
+if not defined MSVC_VER set MSVC_VER=18.0
 if not defined RUNTIME set RUNTIME=msvc%MSVC_VER:.=%
 if not defined MSVC_YEAR set MSVC_YEAR=2013
 if not defined BUILD_ROOT_DIR set BUILD_ROOT_DIR=c:\build
