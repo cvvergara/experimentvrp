@@ -170,7 +170,7 @@ Pgr_pickDeliver::add_node(const Vehicle_node &node) {
 Pgr_pickDeliver::Pgr_pickDeliver(
         const std::vector<PickDeliveryOrders_t> &pd_orders,
         const std::vector<Vehicle_t> &vehicles,
-        const vrprouting::tsp::Dmatrix &cost_matrix,
+        const vrprouting::Matrix &cost_matrix,
         double factor,
         size_t p_max_cycles,
         int initial) :
