@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 #include "visitors/found_goals.hpp"
 
-namespace pgrouting {
+namespace vrprouting {
 namespace  visitors {
 
 /* DFS */
@@ -54,6 +54,6 @@ class Edges_order_dfs_visitor : public boost::default_dfs_visitor {
 
 
 }  // namespace visitors
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_VISITORS_EDGES_ORDER_DFS_VISITOR_HPP_

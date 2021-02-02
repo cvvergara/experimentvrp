@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <ostream>
 
-namespace pgrouting {
+namespace vrprouting {
 
 class Identifier {
  public:
@@ -54,6 +54,6 @@ class Identifier {
 };
 
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_IDENTIFIER_H_

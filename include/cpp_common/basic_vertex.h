@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 
 
-namespace pgrouting {
+namespace vrprouting {
 
 class Basic_vertex {
  public:
@@ -81,6 +81,6 @@ std::vector < Basic_vertex > extract_vertices(
         const std::vector < pgr_edge_t > &data_edges);
 
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_BASIC_VERTEX_H_

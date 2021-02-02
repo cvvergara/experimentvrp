@@ -98,9 +98,9 @@ class Path {
      * @param[in] rule A subpath of edges for turn restrictions
      * @returns the iterator of the path
      */
-    ConstpthIt find_restriction(const pgrouting::trsp::Rule &rule) const;
-    bool has_restriction(const pgrouting::trsp::Rule &rule) const;
-    Path inf_cost_on_restriction(const pgrouting::trsp::Rule &rule);
+    ConstpthIt find_restriction(const vrprouting::trsp::Rule &rule) const;
+    bool has_restriction(const vrprouting::trsp::Rule &rule) const;
+    Path inf_cost_on_restriction(const vrprouting::trsp::Rule &rule);
 
     Path_t set_data(
             int64_t d_from,

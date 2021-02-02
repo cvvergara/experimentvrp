@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "c_types/matrix_cell_t.h"
 
-namespace pgrouting {
+namespace vrprouting {
 namespace tsp {
 
 class Tour;  // for tourCost
@@ -131,6 +131,6 @@ class Dmatrix {
 };
 
 }  // namespace tsp
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_DMATRIX_H_

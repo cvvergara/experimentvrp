@@ -45,7 +45,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "cpp_common/pgr_assert.h"
 
-namespace pgrouting {
+namespace vrprouting {
 
 /*! @brief boost::graph simplified to pgRouting needs
   This class gives the handling basics of a boost::graph of kind G
@@ -120,24 +120,24 @@ Vector of unique vertices of the graph
 size_t total_edges;
 pgr_edge_t *my_edges = NULL;
 pgr_get_edges(edges_sql, &my_edges, &total_tuples);
-std::vector< Basic_Vertex > vertices(pgrouting::extract_vertices(my_edges));
+std::vector< Basic_Vertex > vertices(vrprouting::extract_vertices(my_edges));
 ~~~~
 There are several ways to initialize the graph
 ~~~~{.c}
 // 1. Initializes an empty graph
-pgrouting::DirectedGraph digraph(gType);
+vrprouting::DirectedGraph digraph(gType);
 // 2. Initializes a graph based on the vertices
-pgrouting::DirectedGraph digraph(
+vrprouting::DirectedGraph digraph(
     verices,
     gType);
 vertices.clear();
 3. Initializes a graph based on the extracted vertices
-pgrouting::DirectedGraph digraph(
-    pgrouting::extract_vertices(my_edges, total_edges);
+vrprouting::DirectedGraph digraph(
+    vrprouting::extract_vertices(my_edges, total_edges);
     gType);
 4. Initializes a graph based on the extracted vertices
-pgrouting::DirectedGraph digraph(
-    pgrouting::extract_vertices(my_edges);
+vrprouting::DirectedGraph digraph(
+    vrprouting::extract_vertices(my_edges);
     gType);
 ~~~~
 1. Initializes an empty graph
@@ -304,7 +304,7 @@ class Pgr_base_graph {
              // add_vertices(vertices);
              // This code does not work with contraction
 #if 0
-             pgassert(pgrouting::check_vertices(vertices) == 0);
+             pgassert(vrprouting::check_vertices(vertices) == 0);
 #endif
              size_t i = 0;
              for (auto vi = boost::vertices(graph).first;
@@ -396,8 +396,8 @@ class Pgr_base_graph {
 #if 0
          // This code does not work with contraction
          if (num_vertices() == 0) {
-             auto vertices = pgrouting::extract_vertices(edges);
-             pgassert(pgrouting::check_vertices(vertices) == 0);
+             auto vertices = vrprouting::extract_vertices(edges);
+             pgassert(vrprouting::check_vertices(vertices) == 0);
              add_vertices(vertices);
          }
 #endif
@@ -453,8 +453,8 @@ class Pgr_base_graph {
       * Example use:
       *
       * ~~~~~{.c}
-      * pgrouting::DirectedGraph digraph(gType);
-      * auto vertices(pgrouting::extract_vertices(data_edges, total_edges));
+      * vrprouting::DirectedGraph digraph(gType);
+      * auto vertices(vrprouting::extract_vertices(data_edges, total_edges));
       * digraph.add_vertices(vertices);
       * ~~~~~
       *
@@ -1071,5 +1071,5 @@ Pgr_base_graph< G, T_V, T_E >::graph_add_neg_edge(const T &edge, bool normal) {
 /******************  PRIVATE *******************/
 
 }  // namespace graph
-}  // namespace pgrouting
+}  // namespace vrprouting
 #endif  // INCLUDE_CPP_COMMON_PGR_BASE_GRAPH_HPP_

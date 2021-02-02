@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
  * Book keeping class for swapping orders between vehicles
  */
 
-namespace pgrouting {
+namespace vrprouting {
 namespace vrp {
 
 class Swap_bk;
@@ -129,6 +129,6 @@ class Swap_bk {
 };
 
 }  // namespace vrp
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_VRP_BOOK_KEEPING_H_

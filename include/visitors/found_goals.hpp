@@ -27,11 +27,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #ifndef INCLUDE_VISITORS_FOUND_GOALS_HPP_
 #define INCLUDE_VISITORS_FOUND_GOALS_HPP_
-namespace pgrouting {
+namespace vrprouting {
 
 //! exception for visitor termination
 struct found_goals{};
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_VISITORS_FOUND_GOALS_HPP_
