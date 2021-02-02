@@ -19,7 +19,7 @@ if not defined DOWNLOADS_DIR set DOWNLOADS_DIR=%APPVEYOR_BUILD_FOLDER%\downloads
 if not defined COMMON_INSTALL_DIR set COMMON_INSTALL_DIR=%BUILD_ROOT_DIR%\local\%RUNTIME%\%PLATFORM%
 
 :: for cmake its the min version
-if not defined CMAKE_VERSION set CMAKE_VERSION=3.5.2
+if not defined CMAKE_VERSION set CMAKE_VERSION=3.12.2
 if not defined PGIS_VERSION set PGIS_VERSION=3.0
 if not defined BOOST_VERSION set BOOST_VERSION=1.75.0
 set PG_VER_NO_DOT=pg%PG_VER:.=%
