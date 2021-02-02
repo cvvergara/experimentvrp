@@ -41,10 +41,10 @@ namespace bg = boost::geometry;
 // dijkstraVia_driver.cpp
 // floydWarshall_driver
 // etc...
-namespace pgrouting {
+namespace vrprouting {
 
 using Bpoint = bg::model::d2::point_xy<double>;
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_BPOINT_HPP_

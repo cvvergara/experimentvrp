@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 
 
-namespace pgrouting {
+namespace vrprouting {
 namespace  visitors {
 
 template <class E>
@@ -53,6 +53,6 @@ class Edges_order_bfs_visitor : public boost::default_bfs_visitor {
 
 
 }  // namespace visitors
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_VISITORS_EDGES_ORDER_BFS_VISITOR_HPP_

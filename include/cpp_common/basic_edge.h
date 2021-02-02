@@ -30,7 +30,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include <stdint.h>
 
-namespace pgrouting {
+namespace vrprouting {
 
 class Basic_edge{
  public:
@@ -44,6 +44,6 @@ class Basic_edge{
      double cost;
 };
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_BASIC_EDGE_H_

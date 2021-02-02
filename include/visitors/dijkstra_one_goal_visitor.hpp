@@ -36,7 +36,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "visitors/found_goals.hpp"
 
-namespace pgrouting {
+namespace vrprouting {
 namespace visitors {
 
 template <typename V>
@@ -52,6 +52,6 @@ class dijkstra_one_goal_visitor : public boost::default_dijkstra_visitor {
 };
 
 }  // namespace visitors
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_VISITORS_DIJKSTRA_ONE_GOAL_VISITOR_HPP_

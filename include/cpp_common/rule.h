@@ -31,7 +31,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <sstream>
 #include "c_types/restriction_t.h"
 
-namespace pgrouting {
+namespace vrprouting {
 namespace trsp {
 
 
@@ -73,6 +73,6 @@ class Rule {
 
 
 }  // namespace trsp
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_RULE_H_

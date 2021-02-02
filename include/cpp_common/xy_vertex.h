@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "c_types/pgr_edge_xy_t.h"
 
 
-namespace pgrouting {
+namespace vrprouting {
 
 class XY_vertex {
  public:
@@ -88,6 +88,6 @@ std::vector < XY_vertex > extract_vertices(
     const std::vector < Pgr_edge_xy_t > data_edges);
 #endif
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_XY_VERTEX_H_

@@ -61,7 +61,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "./../../common/src/signalhandler.h"
 #endif
 
-namespace pgrouting {
+namespace vrprouting {
 
 template < class G > class Pgr_dijkstra;
 // user's functions
@@ -926,7 +926,7 @@ class Pgr_dijkstra {
      };
 };
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 
 #endif  // INCLUDE_DIJKSTRA_PGR_DIJKSTRA_HPP_

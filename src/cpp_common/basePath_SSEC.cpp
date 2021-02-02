@@ -92,18 +92,18 @@ void Path::clear() {
 }
 
 Path::ConstpthIt Path::find_restriction(
-        const pgrouting::trsp::Rule &rule) const {
+        const vrprouting::trsp::Rule &rule) const {
     return std::search(path.begin(),  path.end(), rule.begin(), rule.end(),
             [](Path_t p, int64_t e) {return p.edge == e;});
 }
 
 bool Path::has_restriction(
-        const pgrouting::trsp::Rule &rule) const {
+        const vrprouting::trsp::Rule &rule) const {
     return find_restriction(rule) != path.end();
 }
 
 Path Path::inf_cost_on_restriction(
-        const pgrouting::trsp::Rule &rule) {
+        const vrprouting::trsp::Rule &rule) {
     auto position = std::search(
             path.begin(),  path.end(), rule.begin(), rule.end(),
             [](Path_t p, int64_t e) { return p.edge == e;});

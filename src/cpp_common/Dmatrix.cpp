@@ -37,7 +37,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include "cpp_common/pgr_assert.h"
 
 
-namespace pgrouting {
+namespace vrprouting {
 namespace tsp {
 
 double
@@ -260,4 +260,4 @@ std::ostream& operator<<(std::ostream &log, const Dmatrix &matrix) {
 
 
 }  // namespace tsp
-}  // namespace pgrouting
+}  // namespace vrprouting

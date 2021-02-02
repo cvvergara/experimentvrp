@@ -35,7 +35,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 #include "visitors/found_goals.hpp"
 
-namespace pgrouting {
+namespace vrprouting {
 namespace  visitors {
 
 template <typename V, typename E>
@@ -62,6 +62,6 @@ class Dfs_visitor_with_root : public boost::default_dfs_visitor {
 
 
 }  // namespace visitors
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_VISITORS_DFS_VISITOR_WITH_ROOT_HPP_

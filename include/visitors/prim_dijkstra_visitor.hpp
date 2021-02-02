@@ -38,7 +38,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <vector>
 
 
-namespace pgrouting {
+namespace vrprouting {
 namespace  visitors {
 
 /* Prim */
@@ -57,6 +57,6 @@ class Prim_dijkstra_visitor : public boost::default_dijkstra_visitor {
 };
 
 }  // namespace visitors
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_VISITORS_PRIM_DIJKSTRA_VISITOR_HPP_

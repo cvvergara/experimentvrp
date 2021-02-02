@@ -29,7 +29,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <queue>
 #include <iostream>
 
-namespace pgrouting {
+namespace vrprouting {
 namespace vrp {
 
 Swap_info::Swap_info(const Vehicle_pickDeliver &from,
@@ -72,4 +72,4 @@ std::ostream& operator<< (std::ostream &log, const Swap_bk &data) {
 
 
 }  // namespace vrp
-}  // namespace pgrouting
+}  // namespace vrprouting

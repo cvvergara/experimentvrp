@@ -34,7 +34,7 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 #include <string>
 #include <sstream>
 
-namespace pgrouting {
+namespace vrprouting {
 
 class Pgr_messages {
  public:
@@ -97,6 +97,6 @@ class Pgr_messages {
 
 
 
-}  // namespace pgrouting
+}  // namespace vrprouting
 
 #endif  // INCLUDE_CPP_COMMON_PGR_MESSAGES_H_
