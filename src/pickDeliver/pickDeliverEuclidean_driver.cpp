@@ -115,7 +115,7 @@ do_pgr_pickDeliverEuclidean(
             v.end_node_id = matrix_data[std::pair<double, double>(v.end_x, v.end_y)];
         }
 
-        vrprouting::tsp::Dmatrix cost_matrix(matrix_data);
+        vrprouting::Matrix cost_matrix(matrix_data);
 
         log << "Initialize problem\n";
         vrprouting::vrp::Pgr_pickDeliver pd_problem(
