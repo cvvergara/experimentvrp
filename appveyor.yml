@@ -16,7 +16,7 @@ clone_folder: c:\build\vrprouting
 
 cache:
   - downloads -> appveyor.yml
-  - c:\build\local\msvc120\x64 -> appveyor
+  - c:\build\local\msvc160\x64 -> appveyor.yml
 
 services:
   - postgresql96
