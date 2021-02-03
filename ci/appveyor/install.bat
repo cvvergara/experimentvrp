@@ -101,7 +101,7 @@ echo ====================================
 :: Download and install Postgis
 ::
 
-set PGIS_WILD_FILE=postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%*%w%arch%gcc%GCC%.zip
+set PGIS_WILD_FILE=postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%*
 set PGIS_FILE=postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%devw%arch%gcc%GCC%.zip
 
 echo %PGIS_WILD_FILE%
