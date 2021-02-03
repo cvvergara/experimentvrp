@@ -108,14 +108,13 @@ echo %PGIS_WILD_FILE%
 echo %PGIS_FILE%
 
 echo ==================================== POSTGIS
-:: if not exist "C:\Progra~1\PostgreSQL\%PG_VER%\%PGIS_WILD_FILE%" (
-if 1 EQU 1 (
+if not exist "C:\Progra~1\PostgreSQL\%PG_VER%\%PGIS_WILD_FILE%" (
     cd %APPVEYOR_BUILD_FOLDER%
-::    if not exist %DOWNLOADS_DIR%\postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%w%arch%gcc%GCC%.zip (
-    if 1  EQU 1 (
+    if not exist %DOWNLOADS_DIR%\postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%w%arch%gcc%GCC%.zip (
         echo Downloading PostGIS %PGIS_VERSION%
         pushd %DOWNLOADS_DIR%
-        curl -L -O -S -s http://winnie.postgis.net/download/windows/appveyor/postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%w%arch%gcc%GCC%.zip
+        echo downloading  postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%w%arch%gcc%GCC%.zip
+        curl -L -O -S http://winnie.postgis.net/download/windows/appveyor/postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%w%arch%gcc%GCC%.zip
         popd
         if not exist %DOWNLOADS_DIR%\postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%w%arch%gcc%GCC%.zip (
             echo something went wrong on PostGIS %PGIS_VERSION% download !!!!!!!!!
