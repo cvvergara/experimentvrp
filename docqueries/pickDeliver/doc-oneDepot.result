@@ -2,7 +2,7 @@ BEGIN;
 BEGIN
 SET client_min_messages TO NOTICE;
 SET
-SELECT * FROM vrp_vrpOneDepot(
+SELECT * FROM vrp_oneDepot(
     'SELECT * FROM solomon_100_RC_101',
     'SELECT * FROM vrp_vehicles',
     'SELECT * FROM vrp_distance',
@@ -21,7 +21,7 @@ QUERY:  WITH
     vrp_orders.id AS d_node_id, x AS d_x, y AS d_y, open_time AS d_open, close_time AS d_close, service_time AS d_service
     FROM vrp_orders, pickups
     WHERE vrp_orders.id != 1
-CONTEXT:  PL/pgSQL function _vrp_vrponedepot(text,text,text,integer) line 46 at RETURN QUERY
-SQL function "vrp_vrponedepot" statement 1
+CONTEXT:  PL/pgSQL function _vrp_onedepot(text,text,text,integer) line 46 at RETURN QUERY
+SQL function "vrp_onedepot" statement 1
 ROLLBACK;
 ROLLBACK

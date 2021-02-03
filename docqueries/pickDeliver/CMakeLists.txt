@@ -2,7 +2,7 @@
 SET(LOCAL_FILES
     doc-pickDeliverEuclidean
     doc-pickDeliver
-    doc-pgr_vrpOneDepot
+    doc-oneDepot
     )
 
 foreach (f ${LOCAL_FILES})
