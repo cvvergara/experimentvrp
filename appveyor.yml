@@ -19,7 +19,7 @@ cache:
   - c:\build\local\msvc160\x64 -> appveyor.yml
 
 services:
-  - postgresql10
+  - postgresql101
 
 environment:
   CONFIGURATION: Release
