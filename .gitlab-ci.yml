@@ -38,6 +38,6 @@ build_vrprouting:
     - sudo make install
     - cd ..
 
-    - createdb ___pgr___test___
+    - createdb ___vrp___test___
     - bash ./tools/testers/pg_prove_tests.sh root 5432
 
