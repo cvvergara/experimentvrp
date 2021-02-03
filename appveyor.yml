@@ -12,7 +12,7 @@ configuration: Release
 platform: x64
 
 clone_depth: 1
-clone_folder: c:\build\pgrouting
+clone_folder: c:\build\vrprouting
 
 cache:
   - downloads -> appveyor.yml
@@ -41,7 +41,7 @@ install:
 
 
 build_script:
-  - cd c:\build\pgrouting\ci\appveyor
+  - cd c:\build\vrprouting\ci\appveyor
   - msbuild_pgrouting.bat %PG_VER%
   - cd %PGROUTING_BUILD_DIR%
   - msbuild PGROUTING.sln /target:Build /property:Configuration=%CONFIGURATION%
