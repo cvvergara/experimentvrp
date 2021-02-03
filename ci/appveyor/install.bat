@@ -26,15 +26,6 @@ set PG_VER_NO_DOT=pg%PG_VER:.=%
 
 
 set CMAKE_GENERATOR=Visual Studio %MSVC_VER:.0=% %MSVC_YEAR%
-if "%platform%"=="x64" (
-    set CMAKE_GENERATOR=%CMAKE_GENERATOR% Win64
-)
-
-:: Determine if arch is 32/64 bits
-if /I "%platform%"=="x86" ( set arch=32) else ( set arch=64)
-
-:: Determine compiler used to build postgis
-if "%arch%"=="64" (set GCC=81) else (set GCC=481)
 
 ::
 :: =========================================================
