@@ -8,7 +8,7 @@ JENKINS_DEBUG=1
 
 #-----------------
 # variables setup
-#  Variables recived by jenkins setup
+#  Variables received by jenkins setup
 #-----------------
 #export OS_BUILD=
 #export PG_VER=
@@ -25,7 +25,7 @@ then
     #---------------
     echo
     echo "***************************"
-    echo Recived variables
+    echo Received variables
     echo "**************************"
     #---------------
     echo "OS_BUILD ${OS_BUILD}"
