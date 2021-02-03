@@ -32,7 +32,7 @@ Vehicle Routing Functions - Category (Experimental)
 
   vrp_pickDeliver
   vrp_pickDeliverEuclidean
-  vrp_vrpOneDepot
+  vrp_oneDepot
 
 
 

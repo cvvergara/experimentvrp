@@ -6,8 +6,8 @@ SET(LOCAL_FILES
     _pickDeliverEuclidean.sql
     pickDeliverEuclidean.sql
 
-    _pgr_vrpOneDepot.sql
-    pgr_vrpOneDepot.sql
+    _oneDepot.sql
+    oneDepot.sql
     )
 
 foreach (f ${LOCAL_FILES})
