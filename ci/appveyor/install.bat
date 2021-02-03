@@ -20,7 +20,7 @@ if not defined COMMON_INSTALL_DIR set COMMON_INSTALL_DIR=%BUILD_ROOT_DIR%\local\
 
 :: for cmake its the min version
 if not defined CMAKE_VERSION set CMAKE_VERSION=3.12.2
-if not defined PGIS_VERSION set PGIS_VERSION=3.2
+if not defined PGIS_VERSION set PGIS_VERSION=3.1
 if not defined BOOST_VERSION set BOOST_VERSION=1.65.1
 set PG_VER_NO_DOT=pg%PG_VER:.=%
 
