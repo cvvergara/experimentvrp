@@ -87,7 +87,7 @@ BEGIN
     $$;
 
     final_sql = '
-    SELECT * FROM _vrp_pickDeliver(
+    SELECT * FROM _vrp_pgr_pickDeliver(
             $$' || orders_sql || '$$,
             $$' || trucks_sql || '$$,
             $$' || $3 || '$$,
