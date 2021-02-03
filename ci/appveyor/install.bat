@@ -124,22 +124,17 @@ if not exist "C:\Progra~1\PostgreSQL\%PG_VER%\%PGIS_WILD_FILE%" (
 
     echo Extracting PostGIS %PGIS_VERSION%
     pushd %DOWNLOADS_DIR%
-    echo before 7z
     dir
     7z x -o%BUILD_ROOT_DIR%\ postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%w%arch%gcc%GCC%.zip
-    echo after 7z
     dir
     popd
 
     echo **** Installing postGIS %PGIS_VERSION%
     dir %BUILD_ROOT_DIR%\postgis*
-    echo postgres dir
-    dir C:\Progra~1\PostgreSQL\%PG_VER%
-    echo before xcopy
     dir C:\Progra~1\PostgreSQL\%PG_VER%\postgis*
     xcopy /e /y /q %BUILD_ROOT_DIR%\postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%*w%arch%gcc%GCC% C:\Progra~1\PostgreSQL\%PG_VER%
-    echo after xcopy
     dir C:\Progra~1\PostgreSQL\%PG_VER%\postgis*
+    echo looking for %PGIS_WILD_FILE% in this list
     dir %BUILD_ROOT_DIR%\postgis*
 
     if not exist "C:\Progra~1\PostgreSQL\%PG_VER%\%PGIS_WILD_FILE%" (
