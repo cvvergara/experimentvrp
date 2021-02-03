@@ -29,6 +29,7 @@ environment:
   PG_VER: 10
 
 
+
 init:
   - git config --global core.autocrlf false
 
