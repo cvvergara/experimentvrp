@@ -102,7 +102,7 @@ echo ====================================
 ::
 
 set PGIS_WILD_FILE=postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION*%w%arch%gcc%GCC%.zip
-set PGIS_FILE=postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%devw%arch%gcc%GCC%.zip
+set PGIS_FILE=postgis-%PG_VER_NO_DOT%-binaries-%PGIS_VERSION%.2devw%arch%gcc%GCC%.zip
 
 echo %PGIS_WILD_FILE%
 echo %PGIS_FILE%
@@ -140,8 +140,8 @@ if not exist "C:\Progra~1\PostgreSQL\%PG_VER%\%PGIS_WILD_FILE%" (
 
     if not exist "C:\Progra~1\PostgreSQL\%PG_VER%\%PGIS_WILD_FILE%" (
         echo something went wrong on PostGIS %PGIS_VERSION% installation
-        if defined LOCAL_DEBUG dir %DOWNLOADS_DIR%
-        if defined LOCAL_DEBUG dir C:\Progra~1\PostgreSQL\%PG_VER%\postgis*
+        dir %DOWNLOADS_DIR%
+        dir C:\Progra~1\PostgreSQL\%PG_VER%\postgis*
     ) else (
         echo **** PostGIS %PGIS_VERSION% %arch% installed
     )
