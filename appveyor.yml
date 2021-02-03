@@ -16,7 +16,7 @@ clone_folder: c:\build\vrprouting
 
 cache:
   - downloads -> appveyor.yml
-  - c:\build\local\msvc160\x64 -> appveyor.yml
+  - c:\build\local\msvc160\x64 -> appveyor
 
 services:
   - postgresql101
@@ -36,7 +36,6 @@ install:
   # Install pgRouting prerequisites:
   # cmake
   # postGIS
-  # CGAL
   - call ci\appveyor\install.bat
 
 
