@@ -30,8 +30,8 @@ Vehicle Routing Functions - Category (Experimental)
 .. toctree::
   :maxdepth: 1
 
-  vrp_pickDeliver
-  vrp_pickDeliverEuclidean
+  vrp_pgr_pickDeliver
+  vrp_pgr_pickDeliverEuclidean
   vrp_oneDepot
 
 
